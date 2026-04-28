@@ -4,9 +4,9 @@
 > **Intelligent urban routing that prioritizes health & sustainability over speed**
 
 [![GitHub](https://img.shields.io/badge/GitHub-Pruthvi--cs-blue?logo=github)](https://github.com/Pruthvi-cs/TEAM_ASTRA_EchoRoute)
-[![GitHub](https://img.shields.io/badge/GitHub-Akash--N-blue?logo=github)](https://github.com/Akash04092006/TEAM_ASTRA_EchoRoute)
-[![GitHub](https://img.shields.io/badge/GitHub-Alok--M--poojary-blue?logo=github)](https://github.com/Shogun432/TEAM_ASTRA_EchoRoute)
-[![GitHub](https://img.shields.io/badge/GitHub-Sudeep--N-blue?logo=github)](https://github.com/Pruthvi-cs/TEAM_ASTRA_EchoRoute)
+[![GitHub](https://img.shields.io/badge/GitHub-Akash--N-blue?logo=github)](https://github.com/Akash04092006)
+[![GitHub](https://img.shields.io/badge/GitHub-Alok--M--poojary-blue?logo=github)](https://github.com/Shogun432)
+[![GitHub](https://img.shields.io/badge/GitHub-Sudeep--N-blue?logo=github)](https://github.com/Pruthvi-cs)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org)
 [![JavaScript ES6+](https://img.shields.io/badge/JavaScript-ES6%2B-yellow?logo=javascript)](https://developer.mozilla.org)
@@ -395,7 +395,7 @@ Built with ❤️ for a sustainable future.
 
 ## 📞 Support & Contact
 
-- 📧 **Email**: [Your Email]
+- 📧 **Email**: [virajarasa13@gmail.com]
 - 🔗 **GitHub**: [@Pruthvi-cs](https://github.com/Pruthvi-cs)
 - 💬 **Issues**: [GitHub Issues](https://github.com/Pruthvi-cs/TEAM_ASTRA_EchoRoute/issues)
 
