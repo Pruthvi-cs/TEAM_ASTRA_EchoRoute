@@ -14,7 +14,7 @@
 - [x] Add organizers and team members as collaborators.
 - [x] Define system inputs (Noise, Traffic, Route, Vehicle, Area type).
 
-**Checkpoint 2: Core development progress (05:00 PM)**
+**Checkpoint 2: Core development progress (05:00 PM)**✅
 - [ ] Develop simulated data inputs for high-noise zones (>70 dB).
 - [ ] Implement rule-based decision logic.
 - [ ] Handle vehicle type impact (EV vs. Engine noise).
