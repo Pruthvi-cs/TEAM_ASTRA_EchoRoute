@@ -4,40 +4,40 @@
 
 ## Current Status (Day 1 - 03:00 PM)
 
-* **Tasks completed:** GitHub repository successfully set up and collaborators added. Initial project ideation and logic formulation finalized.
-* **Current progress:** Structuring the core repository files (`README.md`, `progress.md`) and preparing mock datasets for simulated IoT sensors.
-* **Next steps:** Begin coding the decision logic
-  $$Score = 0.6 \times Noise + 0.3 \times Traffic + 0.1 \times VehicleImpact$$
+* **Tasks completed:** GitHub repository created, collaborators added, project idea finalized.
+* **Current progress:** Defined system inputs (Noise, Traffic, Vehicle type, Area type) and designed initial architecture.
+* **Next steps:** Start implementing data simulation and decision logic.
 
 ---
 
 ## Current Status (Day 1 - 05:00 PM)
 
-* **Tasks completed:** Built the core data-driven pipeline connecting raw JSON data to a live backend. Implemented data simulation and established API communication bridge (CORS) between backend and frontend.
-* **Current progress:** The backend is successfully serving simulated acoustic data. The React frontend is fetching and visualizing this data using Leaflet.
-* **Next steps:** Finalize map rendering and integrate AI decision engine.
+* **Tasks completed:** Backend API setup completed with simulated acoustic data. Data pipeline established between backend and frontend.
+* **Current progress:** Frontend UI is fetching and displaying noise data. Map visualization initiated.
+* **Next steps:** Implement UI improvements and decision logic integration.
 
 ---
 
-## Current Status (Day 1 - 08:30 PM) 🔥 (CRITICAL CHECKPOINT)
+## Current Status (Day 1 - 08:30 PM) 🔥
 
 * **Tasks completed:**
 
-  * Map visualization completed (dynamic noise display)
-  * Real-time data fetching stabilized
-  * Noise classification thresholds implemented (>70 dB high noise)
+  * Dual-mode interface implemented (User + Admin)
+  * Noise data visualization completed
+  * Admin dashboard (stats + simulation panel) built
+  * Basic noise classification thresholds integrated
 
 * **Current progress:**
 
-  * Integrating AI decision engine into backend pipeline
-  * Building API bridge between backend and AI service
-  * Preparing UI enhancements to display AI outputs
+  * AI decision engine integration in progress
+  * Backend → AI communication being developed
+  * UI enhancements for alerts and AI actions underway
 
 * **Next steps:**
 
-  * Connect backend → AI engine
-  * Display AI actions (reroute / reduce flow) in UI
-  * Add alert system for high-noise zones
+  * Complete AI integration
+  * Display AI decisions in UI
+  * Add alert system for critical zones
 
 ---
 
@@ -45,49 +45,50 @@
 
 ---
 
-### ✅ Checkpoint 1: Initial setup & Idea validation (03:00 PM)
+### ✅ Checkpoint 1: Initial Setup & Idea Validation (03:00 PM)
 
-* [x] Create public GitHub repo `TEAM_ASTRA_EchoRoute`
-* [x] Add organizers and team members as collaborators
-* [x] Define system inputs (Noise, Traffic, Route, Vehicle, Area type)
-
----
-
-### ✅ Checkpoint 2: Core development progress (05:00 PM)
-
-* [x] Develop simulated data inputs for high-noise zones (>70 dB)
-* [x] Implement rule-based decision logic
-* [x] Handle vehicle type impact (EV vs Engine noise)
+* [x] Create public GitHub repo
+* [x] Add team members
+* [x] Define system inputs
 
 ---
 
-### 🔄 Checkpoint 3: Feature integration & refinement (08:30 PM)
+### ✅ Checkpoint 2: Core Development Progress (05:00 PM)
 
-* [x] Build interactive map UI (Leaflet)
-* [x] Visualize noise levels dynamically
+* [x] Develop simulated data inputs
+* [x] Implement backend API
+* [x] Connect frontend to backend
+
+---
+
+### 🔄 Checkpoint 3: Feature Integration & Refinement (08:30 PM)
+
+* [x] Build User and Admin interfaces
+* [x] Display noise data visually
+* [x] Implement simulation controls
 * [ ] Integrate AI decision engine
-* [ ] Display AI-based actions in UI
-* [ ] Generate alerts and health indicators
+* [ ] Add alert system
+* [ ] Show rerouting decisions
 
 ---
 
-### ⏳ Checkpoint 4: Mid-progress review (11:00 PM)
+### ⏳ Checkpoint 4: Mid-Progress Review (11:00 PM)
 
 * [ ] Finalize AI integration
-* [ ] Implement rerouting logic visualization
-* [ ] Add explanation layer (why route changed)
-* [ ] UI polish and animation
+* [ ] Implement route suggestion logic
+* [ ] Add explanation layer (why action taken)
+* [ ] UI polish and animations
 
 ---
 
 ## 🚀 Current Focus
 
-👉 AI Integration + System Intelligence Layer
+👉 AI Integration + Decision Visibility
 
 ---
 
 ## 🎯 Next Milestone
 
-* Fully working AI-driven decision system
-* Real-time alert + rerouting demo
+* Fully functional AI-driven system
+* Real-time alerts + rerouting demo
 * Presentation-ready UI
