@@ -1,0 +1,20 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Main Street" },
+      "geometry": { "type": "Point", "coordinates": [74.84, 12.87] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Hospital Road" },
+      "geometry": { "type": "Point", "coordinates": [74.85, 12.88] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "College Bypass" },
+      "geometry": { "type": "Point", "coordinates": [74.86, 12.89] }
+    }
+  ]
+}
