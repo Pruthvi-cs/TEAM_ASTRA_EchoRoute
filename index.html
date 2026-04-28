@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoRoute — Urban Noise System</title>
+    <style>
+        :root {
+            --bg: #050a0f; --panel: #0a1219; --surface: #101c26;
+            --border: #1e2d3d; --text: #e1e8ed; --muted: #8899a6;
+            --accent: #00ffe1; --accent2: #ff4b6e; --warn: #ffb800; --safe: #00e676;
+            --glow: 0 0 20px rgba(0,255,225,0.3); --head: 'Inter', sans-serif; --mono: 'JetBrains Mono', monospace;
+        }
+        body { background: var(--bg); color: var(--text); font-family: var(--head); margin: 0; }
+        .view { display: none; padding: 20px; }
+        .view.active { display: block; }
+        .header { display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid var(--border); }
+        .header-right { display: flex; gap: 15px; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <button onclick="switchMode('user')" class="mode-btn">User View</button>
+            <button onclick="switchMode('admin')" class="mode-btn">Admin View</button>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <main id="view-user" class="view">
+        <div class="user-form">
+            <h3>Check for High Noise Zones</h3>
+            <input type="number" id="u-lat" placeholder="Latitude (e.g. 12.87)" step="0.01">
+            <input type="number" id="u-lon" placeholder="Longitude (e.g. 74.84)" step="0.01">
+            <button onclick="checkReroute()">Check Route</button>
+        </div>
+        <div id="user-result"></div>
+    </main>
+
+    <main id="view-admin" class="view">
+        <div class="admin-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="card">
+                <h4>Top 5 Noisy Roads</h4>
+                <div id="noise-bars"></div>
+            </div>
+            <div class="card">
+                <h4>System Stats</h4>
+                <p>Total: <span id="stat-total">0</span></p>
+                <p>High Risk: <span id="stat-high">0</span></p>
+                <p>Avg Noise: <span id="stat-avg">0</span></p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>Action Simulation</h4>
+            <select id="sim-road"><option value="">Select Road</option></select>
+            <input type="range" id="sim-reduction" min="0" max="100" value="20">
+            <span id="range-display">20%</span>
+            <button onclick="runSimulation()">Simulate</button>
+            <div id="sim-result">
+                <p>Before: <span id="sim-before"></span> | After: <span id="sim-after"></span></p>
+                <p id="sim-impact"></p>
+            </div>
+        </div>
+
+        <div id="map-container" style="position:relative; height: 400px; background: #000; margin-top:20px;">
+            <div id="map-blobs"></div>
+            <div id="map-pins"></div>
+        </div>
+        
+        <div id="alert-list"></div>
+        <div id="suggestion-list"></div>
+    </main>
+
+    <script src="App.js"></script>
+</body>
+</html>
