@@ -1,6 +1,6 @@
 # Progress Tracking - TEAM ASTRA
 
-## Current Status (Day 1 - 01:15 PM)
+## Current Status (Day 1 - 03:00 PM)
 * [cite_start]**Tasks completed:** GitHub repository successfully set up and collaborators added[cite: 4]. Initial project ideation and logic formulation finalized. 
 * [cite_start]**Current progress:** Structuring the core repository files (`README.md`, `progress.md`) and preparing the mock datasets for simulated IoT sensors[cite: 63, 86].
 * [cite_start]**Next steps:** Begin coding the decision logic ($Score=0.6\times\text{Noise}+0.3\times\text{Traffic}+0.1\times\text{Vehicle Impact}$) for Checkpoint 2[cite: 69].
