@@ -1,88 +1,190 @@
-# 📊 Progress Tracking - TEAM ASTRA
+# ⚙️ Process Documentation - TEAM ASTRA
+
+## EchoRoute: AI-Powered Acoustic Traffic Management
 
 ---
 
-## Current Status (Day 1 - 03:00 PM)
+## 🧠 Project Overview
 
-* Repository setup completed, team onboarded, and project idea finalized.
-* Defined system inputs and architecture.
-
----
-
-## Current Status (Day 1 - 05:00 PM)
-
-* Backend API and simulated data pipeline implemented.
-* Frontend successfully fetching and visualizing noise data.
+EchoRoute is designed to simulate a **smart city acoustic traffic management system** that detects noise pollution and dynamically optimizes traffic flow using an AI decision engine.
 
 ---
 
-## Current Status (Day 1 - 08:30 PM)
+## 🧩 System Workflow
 
-* User + Admin interface completed
-* Map visualization working with dynamic noise display
-* Simulation panel implemented
-* Noise classification thresholds added
-
----
-
-## Current Status (Day 1 - FINAL 🚀)
-
-* **Tasks completed:**
-
-  * AI decision engine fully integrated
-  * Backend ↔ AI communication established
-  * Alerts and rerouting logic implemented
-  * Full system integration completed
-  * UI polished for demonstration
-
-* **System capabilities:**
-
-  * Real-time noise monitoring
-  * AI-based classification and decision making
-  * Dynamic alert generation
-  * Traffic rerouting simulation
+```text
+User / Sensor Input → Backend Processing → AI Decision Engine → Action Output → UI Visualization
+```
 
 ---
 
-### Hackathon Checkpoints Summary
+## 🔄 Development Phases
 
 ---
 
-### ✅ Checkpoint 1 (03:00 PM)
+## Phase 1: Initialization & Planning (Checkpoint 1 - 03:00 PM)
 
-* [x] Repo setup
-* [x] Idea validation
-* [x] Input definition
+### Objectives:
 
----
+* Define problem and solution
+* Set up repository and team workflow
 
-### ✅ Checkpoint 2 (05:00 PM)
+### Implementation:
 
-* [x] Data simulation
-* [x] Backend API
-* [x] Frontend integration
+* Created GitHub repository
+* Defined system inputs:
 
----
-
-### ✅ Checkpoint 3 (08:30 PM)
-
-* [x] UI completed (User + Admin)
-* [x] Map visualization
-* [x] Simulation system
-* [x] Noise classification
+  * Noise level (dB)
+  * Traffic density
+  * Vehicle impact
+  * Area type
+* Designed architecture (Frontend + Backend + AI layer)
 
 ---
 
-### ✅ Checkpoint 4 (FINAL)
+## Phase 2: Core Backend & Data Pipeline (Checkpoint 2 - 05:00 PM)
 
-* [x] AI integration
-* [x] Alert system
-* [x] Rerouting logic
-* [x] Full system integration
-* [x] Demo-ready UI
+### Objectives:
+
+* Establish data flow
+* Simulate real-world conditions
+
+### Implementation:
+
+* Built backend API (FastAPI/Node)
+* Created simulated dataset for noise levels
+* Established frontend ↔ backend communication
+* Implemented basic threshold logic (>70 dB = high noise)
+
+---
+
+## Phase 3: UI Development & Visualization (Checkpoint 3 - 09:00 PM)
+
+### Objectives:
+
+* Build interactive interface
+* Visualize system data
+
+### Implementation:
+
+* Developed **User Mode** (route input + output)
+* Developed **Admin Dashboard**:
+
+  * Noise stats
+  * Top noisy roads
+  * Simulation controls
+* Implemented map-based visualization
+* Displayed real-time noise levels
+
+---
+
+## Phase 4: Refinement & Stability (Checkpoint 4 - 11:00 PM)
+
+### Objectives:
+
+* Improve system reliability
+* Prepare for AI integration
+
+### Implementation:
+
+* Optimized UI components
+* Stabilized API calls
+* Completed simulation engine
+* Improved noise classification logic
+
+---
+
+## Phase 5: AI Integration & Decision Layer (Checkpoint 5 - 06:00 AM)
+
+### Objectives:
+
+* Introduce intelligent decision-making
+
+### AI Model:
+
+```math
+Score = 0.6 × Noise + 0.3 × Traffic + 0.1 × VehicleImpact
+```
+
+### Implementation:
+
+* Developed AI engine (Python / Flask)
+* Integrated backend → AI communication
+* Generated outputs:
+
+  * Status (Safe / Moderate / Critical)
+  * Action (None / Reduce Flow / Reroute)
+  * Confidence score
+
+---
+
+## Phase 6: System Integration & Finalization (Checkpoint 6 - 09:00 AM)
+
+### Objectives:
+
+* Complete full system pipeline
+* Prepare demo-ready prototype
+
+### Implementation:
+
+* Connected all components:
+
+  * Frontend ↔ Backend ↔ AI
+* Added:
+
+  * Alert system for critical zones
+  * Rerouting logic simulation
+  * AI output display in UI
+* Final UI polishing and interaction improvements
+
+---
+
+## ⚙️ Data Flow (Final System)
+
+```text
+Simulated Sensor Data
+        ↓
+Backend API
+        ↓
+AI Decision Engine
+        ↓
+Decision Output (Status + Action)
+        ↓
+Frontend UI (Map + Alerts + Simulation)
+```
+
+---
+
+## 📊 System Capabilities
+
+* Real-time noise monitoring
+* AI-based classification
+* Dynamic alert generation
+* Traffic rerouting simulation
+* Admin-level system control
+* User-level route optimization
 
 ---
 
 ## 🎯 Final Outcome
 
-EchoRoute successfully demonstrates an **AI-powered acoustic traffic management system** capable of detecting noise pollution and optimizing urban traffic flow.
+EchoRoute successfully demonstrates a **fully integrated AI-powered system** capable of:
+
+* Detecting urban noise pollution
+* Making intelligent traffic decisions
+* Providing actionable insights through an interactive interface
+
+---
+
+## 🔮 Future Enhancements
+
+* Real-time IoT sensor integration
+* Machine learning-based predictive models
+* Integration with navigation APIs (Google Maps/Waze)
+* Smart traffic signal automation
+
+---
+
+## 🚀 Conclusion
+
+The project evolved from a basic simulation to a **fully functional prototype** demonstrating how AI and smart infrastructure can be used to improve urban environments.
