@@ -1,78 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoRoute — Urban Noise System</title>
-    <style>
-        :root {
-            --bg: #050a0f; --panel: #0a1219; --surface: #101c26;
-            --border: #1e2d3d; --text: #e1e8ed; --muted: #8899a6;
-            --accent: #00ffe1; --accent2: #ff4b6e; --warn: #ffb800; --safe: #00e676;
-            --glow: 0 0 20px rgba(0,255,225,0.3); --head: 'Inter', sans-serif; --mono: 'JetBrains Mono', monospace;
-        }
-        body { background: var(--bg); color: var(--text); font-family: var(--head); margin: 0; }
-        .view { display: none; padding: 20px; }
-        .view.active { display: block; }
-        .header { display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid var(--border); }
-        .header-right { display: flex; gap: 15px; align-items: center; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoRoute — Urban Noise Intelligence</title>
+<meta name="description" content="Real-time urban noise monitoring and smart rerouting for Mangalore Smart City.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{
+  --blue:#4285F4;--red:#EA4335;--yellow:#FBBC05;--green:#34A853;
+  --meta1:#0082fb;--meta2:#0064e0;--white:#FFFFFF;
+  --bg:#08101a;--surface:#0f1c2e;--card:#132035;--border:#1e3352;
+  --text:#e8f0fe;--muted:#7aa0c4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(8,16,26,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:9999}
+.logo{font-size:22px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--meta1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.5px}
+.nav-tabs{display:flex;gap:4px}
+.tab-btn{padding:8px 18px;border:none;border-radius:20px;background:transparent;color:var(--muted);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif}
+.tab-btn.active,.tab-btn:hover{background:var(--blue);color:#fff}
+.hero{position:relative;padding:72px 40px 52px;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(66,133,244,.18) 0%,transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(0,130,251,.15) 0%,transparent 60%);animation:pulse 6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.hero h1{font-size:clamp(28px,5vw,60px);font-weight:800;line-height:1.1;position:relative;letter-spacing:-1.5px}
+.hero h1 span{background:linear-gradient(135deg,var(--blue),var(--meta1),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{margin-top:14px;font-size:17px;color:var(--muted);position:relative}
+.view{display:none;padding:28px 40px;max-width:1400px;margin:0 auto;animation:fadeUp .3s ease}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:28px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:default}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.stat-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0}
+.stat-card.blue::before{background:var(--blue)}.stat-card.red::before{background:var(--red)}
+.stat-card.green::before{background:var(--green)}.stat-card.yellow::before{background:var(--yellow)}
+.stat-icon{font-size:28px;margin-bottom:10px}
+.stat-val{font-size:38px;font-weight:800;letter-spacing:-1.5px}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.1em}
+.section-title{font-size:18px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;color:var(--text)}
+.section-title::after{content:"";flex:1;height:1px;background:var(--border)}
+.segment-list{display:flex;flex-direction:column;gap:9px}
+.seg-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;transition:all .2s;animation:fadeUp .3s ease both}
+.seg-item:hover{border-color:var(--blue);transform:translateX(4px);background:#162844}
+.seg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.seg-name{flex:1;font-weight:600;font-size:14px}
+.seg-bar-wrap{width:140px;height:5px;background:#1e3352;border-radius:3px;overflow:hidden}
+.seg-bar{height:100%;border-radius:3px;transition:width .8s ease}
+.seg-db{font-size:14px;font-weight:700;width:68px;text-align:right}
+.seg-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.badge-harmful{background:rgba(234,67,53,.15);color:#ff7063}
+.badge-moderate{background:rgba(251,188,5,.15);color:var(--yellow)}
+.badge-safe{background:rgba(52,168,83,.15);color:#5fdb8e}
+.check-wrap{display:flex;justify-content:center}
+.check-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;width:100%;max-width:540px}
+.check-card h2{font-size:22px;font-weight:700;margin-bottom:6px}
+.check-card .sub{color:var(--muted);margin-bottom:24px;font-size:14px;line-height:1.6}
+.input-row{display:flex;gap:10px;margin-bottom:14px}
+.inp{flex:1;background:#0d1828;border:1px solid var(--border);border-radius:10px;padding:13px 15px;color:var(--text);font-size:14px;font-family:Inter,sans-serif;transition:border-color .2s;outline:none;-moz-appearance:textfield}
+.inp:focus{border-color:var(--blue)}
+.btn-primary{width:100%;padding:15px;background:linear-gradient(135deg,var(--blue),var(--meta1));border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif;letter-spacing:.02em}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(66,133,244,.4)}
+.btn-primary:disabled{opacity:.7;transform:none;cursor:not-allowed}
+.result-box{margin-top:20px;padding:18px;border-radius:12px}
+.result-safe{background:rgba(52,168,83,.1);border:1px solid rgba(52,168,83,.35)}
+.result-danger{background:rgba(234,67,53,.1);border:1px solid rgba(234,67,53,.35)}
+.result-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.result-detail{font-size:13px;color:var(--muted);line-height:1.7}
+#map{height:500px;border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-top:8px}
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.about-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px}
+.about-card h3{font-size:16px;font-weight:700;margin-bottom:12px}
+.about-card ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.about-card ul li{font-size:13px;color:var(--muted);padding-left:18px;position:relative;line-height:1.6}
+.about-card ul li::before{content:"▸";position:absolute;left:0;color:var(--blue)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tag{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.tag.blue{background:rgba(66,133,244,.15);color:var(--blue)}
+.tag.green{background:rgba(52,168,83,.15);color:var(--green)}
+.tag.red{background:rgba(234,67,53,.15);color:var(--red)}
+.tag.yellow{background:rgba(251,188,5,.15);color:var(--yellow)}
+.tag.meta{background:rgba(0,130,251,.15);color:var(--meta1)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.leaflet-popup-content-wrapper{background:#132035!important;border:1px solid #1e3352!important;border-radius:12px!important;color:#e8f0fe!important;font-family:Inter,sans-serif!important;box-shadow:0 8px 32px rgba(0,0,0,.6)!important}
+.leaflet-popup-tip{background:#132035!important}
+.leaflet-popup-content{margin:0!important}
+.api-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(52,168,83,.12);color:#5fdb8e;border:1px solid rgba(52,168,83,.25);margin-bottom:14px}
+.api-dot{width:7px;height:7px;border-radius:50%;background:#34A853;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@media(max-width:640px){
+  nav{padding:0 16px}.hero{padding:48px 20px 36px}
+  .view{padding:20px 16px}.input-row{flex-direction:column}
+  .stat-val{font-size:30px}
+}
+</style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="header-left">
-            <button onclick="switchMode('user')" class="mode-btn">User View</button>
-            <button onclick="switchMode('admin')" class="mode-btn">Admin View</button>
-        </div>
-        <div class="header-right"></div>
-    </header>
+<nav>
+  <div class="logo">&#x2B21; EchoRoute</div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" id="btn-dashboard" onclick="show('dashboard',this)">Dashboard</button>
+    <button class="tab-btn" id="btn-check" onclick="show('check',this)">User Check</button>
+    <button class="tab-btn" id="btn-heatmap" onclick="show('heatmap',this)">Heatmap</button>
+    <button class="tab-btn" id="btn-about" onclick="show('about',this)">About</button>
+  </div>
+</nav>
 
-    <main id="view-user" class="view">
-        <div class="user-form">
-            <h3>Check for High Noise Zones</h3>
-            <input type="number" id="u-lat" placeholder="Latitude (e.g. 12.87)" step="0.01">
-            <input type="number" id="u-lon" placeholder="Longitude (e.g. 74.84)" step="0.01">
-            <button onclick="checkReroute()">Check Route</button>
-        </div>
-        <div id="user-result"></div>
-    </main>
+<div class="hero">
+  <div class="hero-bg"></div>
+  <h1>Urban <span>Noise Intelligence</span></h1>
+  <p>Real-time noise monitoring &amp; smart rerouting &mdash; Mangalore Smart City</p>
+</div>
 
-    <main id="view-admin" class="view">
-        <div class="admin-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div class="card">
-                <h4>Top 5 Noisy Roads</h4>
-                <div id="noise-bars"></div>
-            </div>
-            <div class="card">
-                <h4>System Stats</h4>
-                <p>Total: <span id="stat-total">0</span></p>
-                <p>High Risk: <span id="stat-high">0</span></p>
-                <p>Avg Noise: <span id="stat-avg">0</span></p>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h4>Action Simulation</h4>
-            <select id="sim-road"><option value="">Select Road</option></select>
-            <input type="range" id="sim-reduction" min="0" max="100" value="20">
-            <span id="range-display">20%</span>
-            <button onclick="runSimulation()">Simulate</button>
-            <div id="sim-result">
-                <p>Before: <span id="sim-before"></span> | After: <span id="sim-after"></span></p>
-                <p id="sim-impact"></p>
-            </div>
-        </div>
+<!-- DASHBOARD -->
+<div id="v-dashboard" class="view active">
+  <div class="stats-grid">
+    <div class="stat-card blue"><div class="stat-icon">&#128205;</div><div class="stat-val" id="s-total">&#8212;</div><div class="stat-label">Total Segments</div></div>
+    <div class="stat-card yellow"><div class="stat-icon">&#128202;</div><div class="stat-val" id="s-avg">&#8212;</div><div class="stat-label">Avg Noise (dB)</div></div>
+    <div class="stat-card red"><div class="stat-icon">&#9888;&#65039;</div><div class="stat-val" id="s-high">&#8212;</div><div class="stat-label">High Risk &gt;70dB</div></div>
+    <div class="stat-card green"><div class="stat-icon">&#9989;</div><div class="stat-val" id="s-safe">&#8212;</div><div class="stat-label">Safe Zones</div></div>
+  </div>
+  <div class="section-title">Road Segments</div>
+  <div class="segment-list" id="seg-list"><p style="color:var(--muted);padding:16px">Loading data&hellip;</p></div>
+</div>
 
-        <div id="map-container" style="position:relative; height: 400px; background: #000; margin-top:20px;">
-            <div id="map-blobs"></div>
-            <div id="map-pins"></div>
-        </div>
-        
-        <div id="alert-list"></div>
-        <div id="suggestion-list"></div>
-    </main>
+<!-- USER CHECK -->
+<div id="v-check" class="view">
+  <div class="check-wrap">
+    <div class="check-card">
+      <div class="api-badge"><span class="api-dot"></span>Live API</div>
+      <h2>&#x1F5FA;&#xFE0F; Check Your Route</h2>
+      <p class="sub">Enter your GPS coordinates to detect if you are within 1&nbsp;km of a high-noise zone (&gt;&nbsp;70&nbsp;dB). Uses Haversine distance formula.</p>
+      <div class="input-row">
+        <input class="inp" id="lat" type="number" placeholder="Latitude  e.g. 12.87" step="0.001">
+        <input class="inp" id="lon" type="number" placeholder="Longitude  e.g. 74.84" step="0.001">
+      </div>
+      <button class="btn-primary" id="check-btn" onclick="checkRoute()">Check Route Safety</button>
+      <div id="check-result"></div>
+    </div>
+  </div>
+</div>
 
-    <script src="App.js"></script>
+<!-- HEATMAP -->
+<div id="v-heatmap" class="view">
+  <div class="section-title">Live Noise Heatmap &mdash; Mangalore</div>
+  <div id="map"></div>
+</div>
+
+<!-- ABOUT -->
+<div id="v-about" class="view">
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>&#x1F3D9;&#xFE0F; What is EchoRoute?</h3>
+      <ul>
+        <li>Real-time urban noise monitoring for Mangalore, Karnataka</li>
+        <li>Citizens get proximity alerts for noise &gt;70 dB within 1&nbsp;km</li>
+        <li>Admins view live heatmaps &amp; run noise-reduction simulations</li>
+        <li>Targets WHO guideline compliance for road-traffic noise</li>
+        <li>Hackathon 2026 &mdash; Dayanadha Sagar</li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3>&#x1F527; Tech Stack</h3>
+      <div class="tags">
+        <span class="tag blue">FastAPI</span><span class="tag blue">Uvicorn</span><span class="tag meta">Pydantic</span>
+        <span class="tag green">React 18</span><span class="tag green">Leaflet</span>
+        <span class="tag yellow">GeoJSON</span><span class="tag yellow">OpenStreetMap</span>
+        <span class="tag red">Python 3.10+</span>
+      </div>
+    </div>
+    <div class="about-card">
+      <h3>&#x1F4E1; API Endpoints</h3>
+      <ul>
+        <li><b>GET /admin/thermal-data</b> &mdash; GeoJSON heatmap dataset</li>
+        <li><b>GET /user/check-reroute?user_lat=&amp;user_lon=</b> &mdash; proximity alert</li>
+        <li>Algorithm: <b>Haversine</b> great-circle distance</li>
+        <li>Threshold: <b>70 dB</b> (WHO guideline) &bull; Radius: <b>1 km</b></li>
+        <li>Swagger UI at <b>localhost:8000/docs</b></li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3>&#x1F4CA; Data Model</h3>
+      <ul>
+        <li><b>noise_level</b> &mdash; float, simulated 40&ndash;90 dB</li>
+        <li><b>noise_status</b> &mdash; Safe / Moderate / Harmful</li>
+        <li><b>traffic</b> &mdash; low / medium / high</li>
+        <li><b>area</b> &mdash; residential / pedestrian / normal</li>
+        <li>Format: <b>GeoJSON FeatureCollection</b> (WGS84)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+var API="http://localhost:8000";
+var segments=[];
+var mapInst=null;
+
+var MOCK=[
+  {name:"MG Road",lat:12.876,lng:74.843,noise_level:78.3,noise_status:"Harmful",traffic:"high",area:"normal"},
+  {name:"Brigade Road",lat:12.872,lng:74.848,noise_level:55.1,noise_status:"Moderate",traffic:"medium",area:"pedestrian"},
+  {name:"Residency Road",lat:12.868,lng:74.839,noise_level:82.7,noise_status:"Harmful",traffic:"high",area:"normal"},
+  {name:"Hosur Road",lat:12.881,lng:74.852,noise_level:63.4,noise_status:"Moderate",traffic:"medium",area:"residential"},
+  {name:"Old Airport Road",lat:12.864,lng:74.857,noise_level:71.0,noise_status:"Harmful",traffic:"high",area:"normal"},
+  {name:"Kodialbail",lat:12.860,lng:74.833,noise_level:48.9,noise_status:"Safe",traffic:"low",area:"residential"},
+  {name:"Hampankatta",lat:12.870,lng:74.836,noise_level:88.2,noise_status:"Harmful",traffic:"high",area:"normal"},
+  {name:"Main Street",lat:12.87,lng:74.84,noise_level:77.5,noise_status:"Harmful",traffic:"high",area:"normal"},
+  {name:"Hospital Road",lat:12.88,lng:74.85,noise_level:89.9,noise_status:"Harmful",traffic:"high",area:"residential"},
+  {name:"College Bypass",lat:12.89,lng:74.86,noise_level:86.6,noise_status:"Harmful",traffic:"high",area:"pedestrian"}
+];
+
+function show(id,btn){
+  document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+  document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active");});
+  document.getElementById("v-"+id).classList.add("active");
+  btn.classList.add("active");
+  if(id==="heatmap") setTimeout(initMap,50);
+}
+
+function statusLabel(db){return db<55?"Safe":db<=70?"Moderate":"Harmful";}
+function statusClass(s){return s==="Safe"?"badge-safe":s==="Moderate"?"badge-moderate":"badge-harmful";}
+function noiseColor(db){return db>70?"#EA4335":db>55?"#FBBC05":"#34A853";}
+
+async function loadData(){
+  try{
+    var r=await fetch(API+"/admin/thermal-data");
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    var j=await r.json();
+    var raw=Array.isArray(j)?j:(j.features||j.data||j.segments||[]);
+    segments=raw.map(function(f){
+      var p=f.properties||f;
+      var c=f.geometry&&f.geometry.coordinates;
+      return {
+        name:p.name||p.road_name||"Unknown",
+        lat:c?c[1]:(p.lat||p.latitude||12.87),
+        lng:c?c[0]:(p.lng||p.longitude||74.84),
+        noise_level:p.noise_level||0,
+        noise_status:p.noise_status||statusLabel(p.noise_level||0),
+        traffic:p.traffic||"—",
+        area:p.area||"—"
+      };
+    });
+  }catch(e){
+    segments=MOCK;
+    console.warn("API unreachable, using mock data:",e.message);
+  }
+  renderDash();
+}
+
+function renderDash(){
+  var high=segments.filter(function(s){return s.noise_level>70;}).length;
+  var sum=segments.reduce(function(a,s){return a+s.noise_level;},0);
+  var avg=segments.length?(sum/segments.length).toFixed(1):"—";
+  document.getElementById("s-total").textContent=segments.length;
+  document.getElementById("s-avg").textContent=avg+" dB";
+  document.getElementById("s-high").textContent=high;
+  document.getElementById("s-safe").textContent=segments.length-high;
+  var html="";
+  var sorted=segments.slice().sort(function(a,b){return b.noise_level-a.noise_level;});
+  sorted.forEach(function(s,i){
+    var pct=Math.max(0,Math.min(100,((s.noise_level-40)/50)*100));
+    var col=noiseColor(s.noise_level);
+    html+='<div class="seg-item" style="animation-delay:'+i*35+'ms">'
+      +'<div class="seg-dot" style="background:'+col+';box-shadow:0 0 8px '+col+'66"></div>'
+      +'<div class="seg-name">'+s.name+'</div>'
+      +'<div class="seg-bar-wrap"><div class="seg-bar" style="width:'+pct+'%;background:'+col+'"></div></div>'
+      +'<div class="seg-db" style="color:'+col+'">'+s.noise_level.toFixed(1)+' dB</div>'
+      +'<span class="seg-badge '+statusClass(s.noise_status)+'">'+s.noise_status+'</span>'
+      +'</div>';
+  });
+  document.getElementById("seg-list").innerHTML=html;
+}
+
+function initMap(){
+  if(mapInst){mapInst.invalidateSize();return;}
+  mapInst=L.map("map").setView([12.87,74.84],13);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    attribution:'&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',maxZoom:19
+  }).addTo(mapInst);
+  segments.forEach(function(s){
+    var c=noiseColor(s.noise_level);
+    var popup='<div style="padding:12px;min-width:160px">'
+      +'<div style="font-size:12px;color:#7aa0c4;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Road Segment</div>'
+      +'<div style="font-size:15px;font-weight:700;margin-bottom:8px">'+s.name+'</div>'
+      +'<div style="font-size:26px;font-weight:800;color:'+c+';letter-spacing:-1px">'+s.noise_level.toFixed(1)+' <span style="font-size:13px;font-weight:400;color:#7aa0c4">dB</span></div>'
+      +'<div style="font-size:12px;color:#7aa0c4;margin-top:6px">Traffic: '+s.traffic+' &bull; Area: '+s.area+'</div>'
+      +'</div>';
+    L.circleMarker([s.lat,s.lng],{
+      radius:s.noise_level>70?16:10,color:c,fillColor:c,fillOpacity:.28,weight:2,opacity:.9
+    }).addTo(mapInst).bindPopup(popup);
+  });
+}
+
+async function checkRoute(){
+  var lat=parseFloat(document.getElementById("lat").value);
+  var lon=parseFloat(document.getElementById("lon").value);
+  var box=document.getElementById("check-result");
+  var btn=document.getElementById("check-btn");
+  if(isNaN(lat)||isNaN(lon)){
+    box.innerHTML='<div class="result-box result-danger"><div class="result-title">&#10060; Invalid Input</div><div class="result-detail">Please enter valid latitude and longitude values.</div></div>';
+    return;
+  }
+  btn.innerHTML='<span class="spin"></span>Checking&hellip;';btn.disabled=true;
+  try{
+    var r=await fetch(API+"/user/check-reroute?user_lat="+lat+"&user_lon="+lon);
+    var j=await r.json();
+    if(j.reroute_required){
+      var list=j.breaches.map(function(b){return '<li>'+b.location+' &mdash; '+b.db.toFixed(1)+' dB</li>';}).join("");
+      box.innerHTML='<div class="result-box result-danger"><div class="result-title">&#9888;&#65039; High Noise Detected!</div><div class="result-detail">Rerouting recommended. Noisy zones within 1&nbsp;km:<ul style="margin-top:8px;padding-left:18px;line-height:2">'+list+'</ul></div></div>';
+    }else{
+      box.innerHTML='<div class="result-box result-safe"><div class="result-title" style="color:#5fdb8e">&#9989; Route is Safe</div><div class="result-detail">No high-noise zones detected within 1&nbsp;km of your current location.</div></div>';
+    }
+  }catch(e){
+    box.innerHTML=checkLocal(lat,lon);
+  }finally{btn.innerHTML="Check Route Safety";btn.disabled=false;}
+}
+
+function haversine(la1,lo1,la2,lo2){
+  var R=6371,dLat=(la2-la1)*Math.PI/180,dLon=(lo2-lo1)*Math.PI/180;
+  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function checkLocal(lat,lon){
+  var b=segments.filter(function(s){return s.noise_level>70&&haversine(lat,lon,s.lat,s.lng)<=1;});
+  if(b.length){
+    var list=b.map(function(s){return '<li>'+s.name+' &mdash; '+s.noise_level.toFixed(1)+' dB</li>';}).join("");
+    return '<div class="result-box result-danger"><div class="result-title">&#9888;&#65039; High Noise Detected! (offline)</div><div class="result-detail">Noisy zones within 1&nbsp;km:<ul style="margin-top:8px;padding-left:18px;line-height:2">'+list+'</ul></div></div>';
+  }
+  return '<div class="result-box result-safe"><div class="result-title" style="color:#5fdb8e">&#9989; Route is Safe (offline)</div><div class="result-detail">No high-noise zones detected within 1&nbsp;km (offline Haversine check).</div></div>';
+}
+
+loadData();
+</script>
 </body>
 </html>
